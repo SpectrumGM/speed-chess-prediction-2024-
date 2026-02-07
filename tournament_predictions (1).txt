@@ -1,0 +1,40 @@
+SPEED CHESS CHAMPIONSHIP 2024 — MODEL PREDICTIONS
+===================================================
+
+Model: XGBoost (200 trees, max_depth=4, lr=0.05)
+Training data: 2,291 decisive games (blitz + bullet)
+Simulation: Monte Carlo, 10,000 iterations per match
+
+ROUND 1 (1/8 Finals)
+---------------------
+Match A: Magnus Carlsen 99.9% (≈27.3) vs Tuan Minh Le 0.1% (≈11.7)      → ACTUAL: Magnus 20.5 - 3.5 ✅
+Match B: Duda 39.7% (≈18.8) vs Arjun Erigaisi 60.3% (≈20.3)             → ACTUAL: Arjun 12 - 10 ✅
+Match C: Wesley So 91.5% (≈23.5) vs Denis Lazavik 8.5% (≈15.6)           → ACTUAL: Wesley 12 - 10 ✅
+Match D: MVL 67.9% (≈20.8) vs Hans Niemann 32.1% (≈18.2)                → ACTUAL: Niemann 12.5 - 11.5 ❌
+Match E: Hikaru Nakamura 100.0% (≈28.5) vs Jose Martinez 0.0% (≈10.5)   → ACTUAL: Hikaru 14 - 8 ✅
+Match F: Nepomniachtchi 76.3% (≈21.5) vs Abdusattorov 23.7% (≈17.5)     → ACTUAL: Nepo 13 - 11 ✅
+Match G: Firouzja 77.8% (≈21.7) vs Grischuk 22.2% (≈17.3)               → ACTUAL: Firouzja 13.5 - 10.5 ✅
+Match H: Caruana 97.9% (≈25.2) vs Sarana 2.1% (≈13.8)                   → ACTUAL: Caruana 15 - 8 ✅
+
+Round 1 Accuracy: 7/8 (87.5%)
+
+QUARTERFINALS
+-------------
+Match I: Magnus 100% vs Arjun 0%           → ACTUAL: Magnus 12 - 9 ✅
+Match J: Wesley 0% vs MVL 100%             → (bracket diverged — actual was Wesley vs Niemann)
+Match K: Hikaru 100% vs Nepo 0%            → ACTUAL: Hikaru 14.5 - 9.5 ✅
+Match L: Firouzja 100% vs Caruana 0%       → ACTUAL: Firouzja 14.5 - 8.5 ✅
+
+PREDICTED FINAL STANDINGS
+-------------------------
+🥇 Hikaru Nakamura
+🥈 Maxime Vachier-Lagrave
+🥉 Magnus Carlsen
+4th: Alireza Firouzja
+
+ACTUAL FINAL STANDINGS
+----------------------
+🥇 Magnus Carlsen
+🥈 Alireza Firouzja (lost final 7.5 - 23.5)
+🥉 Hikaru Nakamura (lost semifinal 11 - 16 to Firouzja)
+4th: Hans Niemann
