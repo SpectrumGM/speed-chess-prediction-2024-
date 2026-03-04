@@ -7,14 +7,14 @@ Simulation: Monte Carlo, 10,000 iterations per match
 
 ROUND 1 (1/8 Finals)
 ---------------------
-Match A: Magnus Carlsen 99.9% (≈27.3) vs Tuan Minh Le 0.1% (≈11.7)      → ACTUAL: Magnus 20.5 - 3.5 ✅
-Match B: Duda 39.7% (≈18.8) vs Arjun Erigaisi 60.3% (≈20.3)             → ACTUAL: Arjun 12 - 10 ✅
-Match C: Wesley So 91.5% (≈23.5) vs Denis Lazavik 8.5% (≈15.6)           → ACTUAL: Wesley 12 - 10 ✅
-Match D: MVL 67.9% (≈20.8) vs Hans Niemann 32.1% (≈18.2)                → ACTUAL: Niemann 12.5 - 11.5 ❌
-Match E: Hikaru Nakamura 100.0% (≈28.5) vs Jose Martinez 0.0% (≈10.5)   → ACTUAL: Hikaru 14 - 8 ✅
-Match F: Nepomniachtchi 76.3% (≈21.5) vs Abdusattorov 23.7% (≈17.5)     → ACTUAL: Nepo 13 - 11 ✅
-Match G: Firouzja 77.8% (≈21.7) vs Grischuk 22.2% (≈17.3)               → ACTUAL: Firouzja 13.5 - 10.5 ✅
-Match H: Caruana 97.9% (≈25.2) vs Sarana 2.1% (≈13.8)                   → ACTUAL: Caruana 15 - 8 ✅
+Match A: Magnus Carlsen 99.9% (≈27.3) vs Tuan Minh Le 0.1% (≈11.7)      → ACTUAL: Magnus 20.5 - 3.5 ✅ (Domination as expected)
+Match B: Duda 39.7% (≈18.8) vs Arjun Erigaisi 60.3% (≈20.3)             → ACTUAL: Arjun 12 - 10 ✅  (Close, intense match) 
+Match C: Wesley So 91.5% (≈23.5) vs Denis Lazavik 8.5% (≈15.6)           → ACTUAL: Wesley 12 - 10 ✅ (Close, boring match, too many draws)
+Match D: MVL 67.9% (≈20.8) vs Hans Niemann 32.1% (≈18.2)                → ACTUAL: Niemann 12.5 - 11.5 ❌ (Close match, where Hans made a comeback in the bullet section) 
+Match E: Hikaru Nakamura 100.0% (≈28.5) vs Jose Martinez 0.0% (≈10.5)   → ACTUAL: Hikaru 14 - 8 ✅ (Domination) 
+Match F: Nepomniachtchi 76.3% (≈21.5) vs Abdusattorov 23.7% (≈17.5)     → ACTUAL: Nepo 13 - 11 ✅ (Close match, where Ian won at the end)
+Match G: Firouzja 77.8% (≈21.7) vs Grischuk 22.2% (≈17.3)               → ACTUAL: Firouzja 13.5 - 10.5 ✅ (Close at start too) 
+Match H: Caruana 97.9% (≈25.2) vs Sarana 2.1% (≈13.8)                   → ACTUAL: Caruana 15 - 8 ✅ (Domination)
 
 Round 1 Accuracy: 7/8 (87.5%)
 
