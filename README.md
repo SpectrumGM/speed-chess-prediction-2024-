@@ -134,20 +134,6 @@ jupyter notebook notebooks/scc_prediction.ipynb
 - **No historical SCC data:** Adding results from SCC 2017-2023 would improve predictions
 - **Rating snapshots:** Using current ratings rather than ratings at time of each game
 
-## Tech Stack
-
-- **Python 3.9+**
-- **XGBoost** — Gradient boosted decision trees
-- **pandas** — Data manipulation
-- **NumPy** — Numerical computing
-- **scikit-learn** — Model evaluation and cross-validation
-- **Chess.com API** — Data source
-
-## Author
-
-**Nurislam** ([@SpectrumGM](https://github.com/SpectrumGM))  
-Drexel University — Computer Science, Honors College
-
 ## License
 
 This project is licensed under the MIT License — see [LICENSE](LICENSE) for details.
