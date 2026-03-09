@@ -1,14 +1,13 @@
 # ЯЧЕЙКА 1: Импорты и настройка
 
-import requests          # для запросов к Chess.com API
-import pandas as pd      # для работы с таблицами
-import numpy as np       # для математики (массивы, статистика)
-import time              # для пауз между запросами к API
-import os                # для работы с файлами и папками
-import json              # для работы с JSON данными
-from collections import defaultdict  # удобный словарь с значением по умолчанию
+import requests          
+import pandas as pd      
+import numpy as np       
+import time              
+import os                
+import json              
+from collections import defaultdict  
 
-# Создаём папку для данных если её нет
 os.makedirs("../data", exist_ok=True)
 
 print("✅ Все библиотеки загружены!")
@@ -35,12 +34,10 @@ players = {
     "Alexey Sarana": "mishanick",
 }
 
-# Обратный словарь: ник (в нижнем регистре) и имя
-# Нужен чтобы по нику из API найти настоящее имя
+
 username_to_name = {v.lower(): k for k, v in players.items()}
 
 # Турнирная сетка Round 1 (1/8 финала)
-# Каждый tuple - пара (Игрок A, Игрок B)
 bracket_r1 = [
     ("Magnus Carlsen", "Tuan Minh Le"),           # Матч A
     ("Jan-Krzysztof Duda", "Arjun Erigaisi"),     # Матч B
@@ -69,7 +66,6 @@ for i, (a, b) in enumerate(bracket_r1):
 
 
 # ЯЧЕЙКА 3: Сбор рейтингов
-# Берёт текущие рейтинги с Chess.com.
 
 ratings_data = []
 for name, username in players.items():
@@ -114,20 +110,10 @@ print(df_ratings[["name", "blitz_rating", "bullet_rating"]].to_string(index=Fals
 
 # ЯЧЕЙКА 4: Сбор истории партий
  
-# ЭТО САМАЯ ВАЖНАЯ ЧАСТЬ!
-# Мы скачиваем ВСЕ партии каждого игрока с Chess.com за 2023-2024 годы
-# (до июля 2024), и ищем партии где ОППОНЕНТ тоже из наших 16 игроков.
-# Chess.com API работает так:
-# 1. GET /pub/player/{username}/games/archives - список месяцев с партиями
-# 2. GET /pub/player/{username}/games/2024/07 - все партии за июль 2024
-
-# Множество (set) всех ников в нижнем регистре — для быстрого поиска
 our_players_lower = set(v.lower() for v in players.values())
 
-# Сюда будем складывать все h2h партии
 all_games = []
 
-# Множество уже обработанных пар (чтобы не считать одну партию дважды)
 processed_game_ids = set()
 
 print("Начинаю сбор партий... Это займёт 5-10 минут.\n")
@@ -135,7 +121,6 @@ print("Начинаю сбор партий... Это займёт 5-10 мину
 for name, username in players.items():
     print(f"📥 Скачиваю партии {name} ({username})...")
     
-    # Шаг 1: Получаем список архивов (месяцев)
     archives_url = f"https://api.chess.com/pub/player/{username}/games/archives"
     headers = {"User-Agent": "SpeedChessPredictor/1.0"}
     resp = requests.get(archives_url, headers=headers)
@@ -146,16 +131,12 @@ for name, username in players.items():
     
     archives = resp.json().get("archives", [])
     
-    # Фильтруем: берём только 2023 и 2024 до июля
-    # URL архива выглядит так: https://api.chess.com/pub/player/hikaru/games/2024/07
     relevant_archives = []
     for archive_url in archives:
-        # Извлекаем год и месяц из URL
         parts = archive_url.split("/")
         year = int(parts[-2])
         month = int(parts[-1])
         
-        # Берём 2023-2024, но не позже июля 2024
         if year == 2023:
             relevant_archives.append(archive_url)
         elif year == 2024 and month <= 7:
@@ -163,7 +144,6 @@ for name, username in players.items():
     
     games_found = 0
     
-    # Шаг 2: Скачиваем партии за каждый месяц
     for archive_url in relevant_archives:
         resp = requests.get(archive_url, headers=headers)
         if resp.status_code != 200:
@@ -177,28 +157,24 @@ for name, username in players.items():
             if time_class not in ["blitz", "bullet"]:
                 continue  # пропускаем рапид, дэйли и др.
             
-            # Кто играл?
+            
             white_user = game.get("white", {}).get("username", "").lower()
             black_user = game.get("black", {}).get("username", "").lower()
             
-            # Оба игрока должны быть из наших 16
+            
             if white_user not in our_players_lower or black_user not in our_players_lower:
                 continue
             
-            # Уникальный ID партии (чтобы не дублировать)
             game_url = game.get("url", "")
             if game_url in processed_game_ids:
                 continue
             processed_game_ids.add(game_url)
             
-            # Извлекаем результаты
             white_result = game.get("white", {}).get("result", "")
             black_result = game.get("black", {}).get("result", "")
             white_rating = game.get("white", {}).get("rating", 0)
             black_rating = game.get("black", {}).get("rating", 0)
             
-            # Определяем кто победил
-            # "win" = победа, "checkmated"/"timeout"/"resigned" и т.д. = поражение
             if white_result == "win":
                 result = 1  # белые победили
             elif black_result == "win":
@@ -206,7 +182,6 @@ for name, username in players.items():
             else:
                 result = 0.5  # ничья
             
-            # Получаем настоящие имена
             white_name = username_to_name.get(white_user, white_user)
             black_name = username_to_name.get(black_user, black_user)
             
@@ -241,7 +216,6 @@ print("=" * 60)
 print("СТАТИСТИКА СОБРАННЫХ ПАРТИЙ")
 print("=" * 60)
 
-# Сколько партий у каждого игрока
 print("\n📊 Количество партий каждого игрока (как белые + как чёрные):")
 for name in players.keys():
     as_white = len(df_games[df_games["white"] == name])
@@ -249,7 +223,6 @@ for name in players.keys():
     total = as_white + as_black
     print(f"   {name}: {total} партий ({as_white} белыми, {as_black} чёрными)")
 
-# H2H для матчей Round 1
 print("\n📊 Head-to-head для матчей Round 1:")
 for player_a, player_b in bracket_r1:
     # Партии где A белые, B чёрные
@@ -270,17 +243,6 @@ for player_a, player_b in bracket_r1:
 
 
 # ЯЧЕЙКА 6: Feature Engineering (Создание фичей)
-# Берём сырые данные и создаём из них
-# ФИЧИ (features) — числовые характеристики, которые модель
-# будет использовать для предсказания.
-#
-# Для каждой пары игроков (A vs B) создаём:
-# 1. Разница blitz рейтингов (A - B)
-# 2. Разница bullet рейтингов (A - B)
-# 3. H2H winrate A против B в блиц
-# 4. H2H winrate A против B в буллет
-# 5. Общее количество партий между ними
-# 6. Разница лучших рейтингов (best)
 
 def get_rating(name, col):
     """Получить рейтинг игрока по имени и столбцу"""
@@ -297,13 +259,11 @@ def get_h2h_stats(player_a, player_b, time_class=None):
     
     time_class: "blitz", "bullet", или None (все)
     """
-    # Фильтруем по time_class если указан
     if time_class:
         games = df_games[df_games["time_class"] == time_class]
     else:
         games = df_games
     
-    # A белые, B чёрные
     ab = games[(games["white"] == player_a) & (games["black"] == player_b)]
     # B белые, A чёрные
     ba = games[(games["white"] == player_b) & (games["black"] == player_a)]
@@ -387,14 +347,6 @@ for k, v in test_features.items():
 
 
 # ЯЧЕЙКА 7: Создание обучающей выборки
-# Теперь самое интересное. Нам нужен ДАТАСЕТ для обучения модели.
-# Каждая строка = одна партия между двумя нашими игроками.
-# Фичи = разницы рейтингов, h2h статистика.
-# Target = кто победил (1 = белые, 0 = чёрные).
-# НО! Мы хотим предсказывать не отдельные партии, а МАТЧИ
-# (серии из ~ 20-30 партий). Поэтому мы будем обучать модель
-# на отдельных партиях, а потом через Monte Carlo моделировать
-# целый матч
 
 training_data = []
 
@@ -424,14 +376,10 @@ print(df_train[["player_a", "player_b", "blitz_diff", "bullet_diff",
 
 # ЯЧЕЙКА 8: Обучение XGBoost модели
 
-# Устанавливаем XGBoost 
-# !pip install xgboost
-
 from xgboost import XGBClassifier
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import accuracy_score, log_loss, roc_auc_score
 
-# Фичи, которые подаём в модель (только числовые столбцы)
 feature_columns = [
     "blitz_diff", "bullet_diff",
     "blitz_best_diff", "bullet_best_diff",
@@ -441,11 +389,6 @@ feature_columns = [
     "elo_expected_blitz", "elo_expected_bullet",
 ]
 
-# Для XGBoost нам нужна бинарная задача: победа или поражение
-# Ничьи (0.5) превращаем в вероятности:
-# result > 0.5 → класс 1 (белые победили)
-# result < 0.5 → класс 0 (чёрные победили)
-# result == 0.5 → пока уберём из обучения (или случайно распределим)
 
 # Убираем ничьи для простоты обучения
 df_train_no_draws = df_train[df_train["result"] != 0.5].copy()
@@ -458,30 +401,27 @@ print(f"Обучающая выборка (без ничьих): {len(X)} пар
 print(f"Побед белых: {y.sum()} ({y.mean()*100:.1f}%)")
 print(f"Побед чёрных: {len(y) - y.sum()} ({(1-y.mean())*100:.1f}%)")
 
-# Создаём модель XGBoost
-# Объяснение каждого параметра:
+
 model = XGBClassifier(
-    n_estimators=200,        # 200 деревьев (каждое следующее исправляет ошибки предыдущих)
-    max_depth=4,             # максимальная глубина каждого дерева (не слишком сложное)
-    learning_rate=0.05,      # маленький шаг обучения (η) — медленно но точно
-    subsample=0.8,           # каждое дерево видит 80% данных (защита от переобучения)
-    colsample_bytree=0.8,    # каждое дерево видит 80% фичей
-    reg_lambda=1.0,          # L2 регуляризация (λ из формулы)
-    reg_alpha=0.1,           # L1 регуляризация
-    random_state=42,         # фиксируем случайность для воспроизводимости
-    eval_metric="logloss",   # метрика — binary cross-entropy
+    n_estimators=200,        
+    max_depth=4,            
+    learning_rate=0.05,     
+    subsample=0.8,           
+    colsample_bytree=0.8,    
+    reg_lambda=1.0,          
+    reg_alpha=0.1,           
+    random_state=42,         
+    eval_metric="logloss",  
 )
 
-# Кросс-валидация (5 разбиений)
+
 scores = cross_val_score(model, X, y, cv=5, scoring="accuracy")
 print(f"\n📊 Cross-validation accuracy: {scores.mean():.3f} ± {scores.std():.3f}")
 print(f"   По разбиениям: {[f'{s:.3f}' for s in scores]}")
 
-# Обучаем финальную модель на ВСЕХ данных
 model.fit(X, y)
 print(f"\n✅ Модель обучена на {len(X)} партиях")
 
-# Важность фичей — какие фичи модель считает самыми полезными
 importances = model.feature_importances_
 print("\n📊 Важность фичей (чем больше — тем важнее):")
 for feat, imp in sorted(zip(feature_columns, importances), key=lambda x: -x[1]):
@@ -490,11 +430,6 @@ for feat, imp in sorted(zip(feature_columns, importances), key=lambda x: -x[1]):
 
 
 # ЯЧЕЙКА 9: Функция предсказания матча
-# Здесь мы используем ОБУЧЕННУЮ модель для предсказания.
-# Но помни — модель предсказывает одну ПАРТИЮ.
-# Матч = серия из ~25-30 партий.
-# Поэтому используем Monte Carlo симуляцию.
-
 def predict_single_game(player_a, player_b):
     """
     Предсказать вероятность победы player_a (как белые) в одной партии.
