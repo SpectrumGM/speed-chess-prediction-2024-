@@ -70,31 +70,6 @@ blitz_diff                 3.1%  █
 bullet_diff                3.7%  █
 ```
 
-## Methodology
-
-### Data Collection
-- Player ratings via Chess.com Public API
-- 2,826 blitz and bullet games between the 16 participants (Jan 2023 — Jul 2024)
-- Head-to-head statistics for all player pairs
-
-### Feature Engineering (14 features per matchup)
-- **Rating differences:** blitz, bullet, best ratings
-- **H2H winrates:** overall, blitz-specific, bullet-specific
-- **H2H sample size:** total games, blitz games, bullet games
-- **ELO expected score:** `E = 1 / (1 + 10^((Rb-Ra)/400))`
-- **Average ratings:** overall match strength indicator
-
-### Model
-- **Algorithm:** XGBoost (Gradient Boosted Decision Trees)
-- **Hyperparameters:** 200 trees, max_depth=4, learning_rate=0.05, L2 regularization
-- **Validation:** 5-fold cross-validation
-
-### Match Simulation
-- Monte Carlo simulation with 10,000 iterations per match
-- Match structure: 15 games (5+1 blitz) + 12 games (3+1 blitz) + 12 games (1+1 bullet)
-- Tiebreak simulation included
-- Draw rates calibrated per time control (15% blitz, 8% bullet)
-
 ## Project Structure
 
 ```
