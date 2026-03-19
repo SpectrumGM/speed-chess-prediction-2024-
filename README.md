@@ -42,7 +42,7 @@ This project builds a machine learning pipeline that:
 | Hikaru vs Nepo | Hikaru (100%) | Hikaru 14.5 - 9.5 | ✅ |
 | Firouzja vs Caruana | Firouzja (100%) | Firouzja 14.5 - 8.5 | ✅ |
 
-**Overall Match Prediction Accuracy: 10/11 (90.9%)**
+**Overall Match Prediction Accuracy for 2 rounds: 10/11 (90.9%)**
 
 ### Model Performance
 
