@@ -6,17 +6,6 @@ Predicting the results of the [Speed Chess Championship 2024](https://www.chess.
 ![XGBoost](https://img.shields.io/badge/XGBoost-2.0+-green.svg)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-## Overview
-
-The Speed Chess Championship (SCC) is Chess.com's premier online speed chess tournament featuring 16 of the world's best players. Each match consists of three segments: 5+1 blitz, 3+1 blitz, and 1+1 bullet, with the player scoring the most points advancing.
-
-This project builds a machine learning pipeline that:
-1. **Collects data** from the Chess.com API (ratings + 2,826 head-to-head games)
-2. **Engineers features** from rating differences, H2H history, and ELO expected scores
-3. **Trains an XGBoost model** to predict individual game outcomes
-4. **Simulates full matches** using Monte Carlo methods (10,000 iterations per match)
-5. **Predicts the entire tournament bracket** from Round 1 through the Final
-
 ## Results
 
 ### Round 1 Predictions vs Actual Results
@@ -102,12 +91,6 @@ pip install -r requirements.txt
 jupyter notebook notebooks/scc_prediction.ipynb
 ```
 
-## Known Limitations & Future Improvements
-
-- **Overconfident predictions:** Some matches predicted at 99-100% due to small H2H sample sizes (e.g., only 3 games between Magnus and MVL)
-- **Online ≠ Tournament:** Model trained on casual online games, but tournament conditions differ significantly
-- **No historical SCC data:** Adding results from SCC 2017-2023 would improve predictions
-- **Rating snapshots:** Using current ratings rather than ratings at time of each game
 
 ## License
 
