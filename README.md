@@ -42,7 +42,7 @@ Predicting the results of the [Speed Chess Championship 2024](https://www.chess.
 | Features | 14 |
 | Match-level Accuracy | 87.5% (Round 1) |
 
-> **Note:** 60% accuracy on individual blitz/bullet games translates to 87%+ accuracy on full matches (39 games each) due to the Law of Large Numbers — variance decreases as sample size increases.
+> **Note:** 60% accuracy on individual blitz,bullet games translates to 87%+ accuracy on full matches (39 games each) due to the Law of Large Numbers — variance decreases as sample size increases.
 
 ## Feature Importance
 
